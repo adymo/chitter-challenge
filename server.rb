@@ -20,7 +20,10 @@ class Chitter < Sinatra::Base
   post '/posting' do
     username = params['username']
     message = params['message']
-    Post.create(username: username, message: message)
+    post = Post.create(username: username, message: message)
+    params['hashtag'].split(/\s+/).each do |hashtag|
+      post.hashtags.create(text: hashtag)
+    end
     redirect to ('/')
   end
 
